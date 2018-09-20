@@ -17,6 +17,8 @@
 package com.example.app1.handler;
 
 
+import android.util.Log;
+
 import com.example.app1.Subscription;
 
 import java.lang.reflect.InvocationTargetException;
@@ -33,6 +35,7 @@ public class DefaultEventHandler implements EventHandler {
         }
         try {
             // 执行
+            Log.e("TAG", "----subscription.subscriber.get()=="+subscription.subscriber.get());
             subscription.targetMethod.invoke(subscription.subscriber.get(), event);
         } catch (IllegalArgumentException e) {
             e.printStackTrace();

@@ -32,7 +32,8 @@ import java.util.List;
 public class DefaultMatchPolicy implements MatchPolicy {
 
 
-    //获取父类的类型
+    //获取类型的父类和实现的接口  比如是String类型，
+    // 那么就会将String类型的父类 String  Serializable  Comparable  CharSequence Object 都会添加在里面
     @Override
     public List<EventType> findMatchEventTypes(EventType type, Object aEvent) {
         Class<?> eventClass = aEvent.getClass();

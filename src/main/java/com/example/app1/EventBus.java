@@ -76,7 +76,8 @@ public final class EventBus {
     /**
      * EventType-Subcriptions map
      */
-    private final Map<EventType, CopyOnWriteArrayList<Subscription>> mSubcriberMap = new ConcurrentHashMap<EventType, CopyOnWriteArrayList<Subscription>>();
+    private final Map<EventType, CopyOnWriteArrayList<Subscription>> mSubcriberMap
+            = new ConcurrentHashMap<EventType, CopyOnWriteArrayList<Subscription>>();
     /**
      * 
      */
@@ -183,7 +184,6 @@ public final class EventBus {
 
     /**
      * 发布事件
-     * 
      * @param event 要发布的事件
      * @param tag 事件的tag, 类似于BroadcastReceiver的action
      */
@@ -370,9 +370,7 @@ public final class EventBus {
             // 如果有缓存则直接从缓存中取
             List<EventType> eventTypes = getMatchedEventTypes(type, aEvent);
             // 迭代所有匹配的事件并且分发给订阅者
-
             for (EventType eventType : eventTypes) {
-                Log.e("TAG", "--------eventType-----"+eventType.toString());
                 handleEvent(eventType, aEvent);
             }
         }
@@ -381,11 +379,11 @@ public final class EventBus {
          * 处理单个事件
          */
         private void handleEvent(EventType eventType, Object aEvent) {
+            Log.e("TAG", "------eventType==="+eventType.hashCode());
             List<Subscription> subscriptions = mSubcriberMap.get(eventType);
             if (subscriptions == null) {
                 return;
             }
-
             for (Subscription subscription : subscriptions) {
                 final ThreadMode mode = subscription.threadMode;
                 EventHandler eventHandler = getEventHandler(mode);
@@ -400,7 +398,7 @@ public final class EventBus {
             if (mCacheEventTypes.containsKey(type)) {
                 eventTypes = mCacheEventTypes.get(type);
             } else {
-                //通过这个方法 将当前对象的父类和接口都存储起来  这样具有父子关系的情况下也能匹配到
+                //通过这个方法 将当前参数类型的父类和接口都存储起来  这样具有父子关系的情况下也能匹配到
                 eventTypes = mMatchPolicy.findMatchEventTypes(type, aEvent);
                 //将所匹配的信息存储在map中
                 mCacheEventTypes.put(type, eventTypes);
