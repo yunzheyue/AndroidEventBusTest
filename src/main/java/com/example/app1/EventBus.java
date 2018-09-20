@@ -146,7 +146,6 @@ public final class EventBus {
         if (subscriber == null) {
             return;
         }
-
         synchronized (this) {
             mMethodHunter.findSubcribeMethods(subscriber);
         }
@@ -352,7 +351,8 @@ public final class EventBus {
         MatchPolicy mMatchPolicy = new DefaultMatchPolicy();
 
         void dispatchEvents(Object aEvent) {
-            //获取ThreadLocal中的对列
+            //获取ThreadLocal中的对列  ，这是将注册的中的数据全部的遍历，
+            //但是只有一条，这里主要是利用ThreadLocal的能存储不同线程数据的特点
             Queue<EventType> eventsQueue = mLocalEvents.get();
             while (eventsQueue.size() > 0) {
                 //调用poll()方法，获取到队列的第一个值，并且删除。
@@ -370,7 +370,9 @@ public final class EventBus {
             // 如果有缓存则直接从缓存中取
             List<EventType> eventTypes = getMatchedEventTypes(type, aEvent);
             // 迭代所有匹配的事件并且分发给订阅者
+
             for (EventType eventType : eventTypes) {
+                Log.e("TAG", "--------eventType-----"+eventType.toString());
                 handleEvent(eventType, aEvent);
             }
         }

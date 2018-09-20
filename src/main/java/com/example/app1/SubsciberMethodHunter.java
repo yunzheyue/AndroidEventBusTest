@@ -90,12 +90,12 @@ public class SubsciberMethodHunter {
     /**
      * 按照EventType存储订阅者列表,这里的EventType就是事件类型,一个事件对应0到多个订阅者.
      * 
-     * @param event 事件
+     * @param eventType 事件
      * @param method 订阅方法对象
      * @param subscriber 订阅者
      */
-    private void subscibe(EventType event, TargetMethod method, Object subscriber) {
-        CopyOnWriteArrayList<Subscription> subscriptionLists = mSubcriberMap.get(event);
+    private void subscibe(EventType eventType, TargetMethod method, Object subscriber) {
+        CopyOnWriteArrayList<Subscription> subscriptionLists = mSubcriberMap.get(eventType);
         if (subscriptionLists == null) {
             subscriptionLists = new CopyOnWriteArrayList<Subscription>();
         }
@@ -107,7 +107,7 @@ public class SubsciberMethodHunter {
         //虽然是创建了结合，但是其实里面的数据只有一条
         subscriptionLists.add(newSubscription);
         // 将事件类型key和订阅者信息存储到map中
-        mSubcriberMap.put(event, subscriptionLists);
+        mSubcriberMap.put(eventType, subscriptionLists);
     }
 
     /**

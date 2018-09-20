@@ -6,8 +6,6 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.example.app1.EventBus
 import com.example.app1.R
-import com.example.app1.Subscriber
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,10 +17,12 @@ class MainActivity : AppCompatActivity() {
         EventBus.getDefault().register(this)
     }
 
-    @Subscriber(tag = "testTag")   //这里必须有一个参数，因为用反射的方法时候invoke()调用的时候，是调用一个参数的方法
-    public fun change(test: String) {
-        tv_text.text = "test"
-    }
+//    @Subscriber(tag = "testTag")   //这里必须有一个参数，因为用反射的方法时候invoke()调用的时候，是调用一个参数的方法
+//    public fun change(test: String) {
+//        tv_text.text = "test"
+//    }
+
+
 
     public fun startA(view: View) {
         var intent = Intent(this, Main2Activity::class.java)
